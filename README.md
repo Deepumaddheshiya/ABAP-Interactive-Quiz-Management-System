@@ -422,9 +422,9 @@ Skills:
 * SQL
 * Full Stack Development
 
-GitHub: https://github.com/your-github
+GitHub: https://github.com/Deepumaddheshiya)
 
-LinkedIn: https://linkedin.com/in/your-profile
+LinkedIn: https://www.linkedin.com/in/deepu-maddheshiya-889084308/)
 
 ---
 
