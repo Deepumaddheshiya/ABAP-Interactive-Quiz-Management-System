@@ -1307,7 +1307,12 @@ function switchTheme(theme) {
 }
 
 // Menu Bar Dropdown Logic
-function toggleMenu(menuId) {
+function toggleMenu(menuId, event) {
+  const ev = event || window.event;
+  if (ev) {
+    ev.stopPropagation();
+  }
+
   // Close any already open menus
   const allMenus = document.querySelectorAll('.sap-dropdown');
   allMenus.forEach(menu => {
@@ -1325,7 +1330,7 @@ function toggleMenu(menuId) {
 
 // Close dropdowns if clicked outside
 window.onclick = function(event) {
-  if (!event.target.matches('.sap-menu-item')) {
+  if (!event.target.closest('.sap-menu-item') || event.target.closest('.sap-dropdown a')) {
     const dropdowns = document.getElementsByClassName("sap-dropdown");
     for (let i = 0; i < dropdowns.length; i++) {
       let openDropdown = dropdowns[i];
