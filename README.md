@@ -32,6 +32,8 @@ This project demonstrates real-world SAP development practices and enterprise ap
 # ✨ Key Features
 
 ## 📝 Quiz Management
+<img width="725" height="825" alt="image" src="https://github.com/user-attachments/assets/de96b979-2999-49ac-a493-88462ca6e459" />
+
 
 * Create and manage quizzes
 * Configure passing criteria
@@ -42,8 +44,20 @@ This project demonstrates real-world SAP development practices and enterprise ap
 ## 👨‍🎓 Candidate Assessment
 
 * Candidate Login System
+* <img width="972" height="971" alt="image" src="https://github.com/user-attachments/assets/47fb99ec-b2e3-426e-86c0-3268daae80e5" />
+
 * Interactive Quiz Interface
+* <img width="971" height="972" alt="image" src="https://github.com/user-attachments/assets/2d94831e-38b7-464a-a06d-00e231209ded" />
+<img width="971" height="971" alt="image" src="https://github.com/user-attachments/assets/babf4591-db3e-4d7a-a536-d11fa61a42ee" />
+
+
 * Question Navigation
+* Easy:
+* <img width="972" height="971" alt="image" src="https://github.com/user-attachments/assets/2162eec3-ba7c-4d5c-8ae6-460638d1c03d" />
+Medium:
+<img width="946" height="971" alt="image" src="https://github.com/user-attachments/assets/5600422e-e17a-47be-99f3-0d6717632fe7" />
+Hard:
+
 * Timer-Based Examination
 * Auto Submission
 * Instant Result Generation
