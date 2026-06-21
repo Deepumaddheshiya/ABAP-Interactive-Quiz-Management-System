@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP ABAP Quiz Management System & Simulator</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body class="sap-gui-theme">
+  <!-- Header / Navigation Bar -->
+  <header class="app-header">
+    <div class="header-logo">
+      <div class="sap-logo-badge">SAP</div>
+      <h1>ABAP Interactive Quiz Management System</h1>
+    </div>
+    <div class="header-actions">
+      <div class="theme-switch-container">
+        <span class="theme-label"><i class="fa-solid fa-display"></i> Theme:</span>
+        <button id="btn-theme-sap" class="theme-btn active" onclick="switchTheme('sap')">SAP GUI Classic</button>
+        <button id="btn-theme-fiori" class="theme-btn" onclick="switchTheme('fiori')">SAP Fiori Modern</button>
+      </div>
+      <a href="https://github.com" target="_blank" class="header-link"><i class="fa-brands fa-github"></i> Repository</a>
+    </div>
+  </header>
+
+  <!-- Main Split-Screen Workspace -->
+  <main class="workspace-container">
+    
+    <!-- LEFT PANEL: The Interactive SAP GUI Simulator -->
+    <section class="panel simulator-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <i class="fa-solid fa-server panel-icon"></i>
+          <h2>SAP System Simulator</h2>
+        </div>
+        <div class="sap-system-status">
+          <span class="status-indicator online"></span> System: <strong id="sap-sys-id">NXP</strong> (Client: <strong id="sap-client-id">800</strong>)
+        </div>
+      </div>
+
+      <!-- SAP Window Shell -->
+      <div class="sap-window">
+        <!-- Advanced SAP Command Field Toolbar -->
+        <div class="sap-cmd-bar">
+          <div class="sap-cmd-input-wrapper">
+            <button class="cmd-icon-btn" title="Search Transactions"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <input type="text" id="sap-cmd-input" placeholder="Enter T-Code (e.g. /NZQUIZ) or Search..." oninput="handleCmdInput(event)" onkeydown="handleCmdEnter(event)" autocomplete="off">
+            <div id="cmd-autocomplete-dropdown" class="cmd-dropdown hidden"></div>
+            <button class="cmd-icon-btn fav-btn" onclick="toggleFavorite()" title="Add to Favorites"><i class="fa-regular fa-star" id="cmd-fav-icon"></i></button>
+            <button class="cmd-icon-btn history-btn" onclick="toggleHistory()" title="Transaction History"><i class="fa-solid fa-clock-rotate-left"></i></button>
+            <div id="cmd-history-dropdown" class="cmd-dropdown hidden"></div>
+            <button class="execute-btn" onclick="executeCommand()" title="Execute SAP Transaction"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="sap-window-controls">
+            <button onclick="sapBack()" title="Back (F3)"><i class="fa-solid fa-arrow-left"></i></button>
+            <button onclick="sapExit()" title="Exit (Shift+F3)"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+            <button onclick="sapCancel()" title="Cancel (F12)"><i class="fa-solid fa-xmark"></i></button>
+            <span class="sap-divider"></span>
+            <button onclick="showHelp()" title="Help"><i class="fa-solid fa-circle-question"></i></button>
+          </div>
+        </div>
+
+        <!-- SAP System Menu bar -->
+        <div class="sap-menu-bar">
+          <div class="sap-menu-item" onclick="toggleMenu('menu-menu')">Menu
+            <div class="sap-dropdown" id="menu-menu">
+              <a href="#" onclick="executeTransaction('EASY_ACCESS')">User Menu</a>
+              <a href="#" onclick="executeTransaction('ZQUIZ')">Quiz Catalog</a>
+            </div>
+          </div>
+          <div class="sap-menu-item" onclick="toggleMenu('menu-edit')">Edit
+            <div class="sap-dropdown" id="menu-edit">
+              <a href="#" onclick="alert('Execute function unavailable')">Execute (F8)</a>
+              <a href="#" onclick="sapCancel()">Cancel (F12)</a>
+            </div>
+          </div>
+          <div class="sap-menu-item" onclick="toggleMenu('menu-favorites')">Favorites
+            <div class="sap-dropdown" id="menu-favorites">
+              <a href="#" onclick="alert('Added to favorites!')">Add to Favorites</a>
+              <a href="#" onclick="alert('Deleted from favorites!')">Delete Favorite</a>
+            </div>
+          </div>
+          <div class="sap-menu-item" onclick="toggleMenu('menu-extras')">Extras
+            <div class="sap-dropdown" id="menu-extras">
+              <a href="#" onclick="executeTransaction('SE11')">Data Dictionary</a>
+              <a href="#" onclick="executeTransaction('SE38')">ABAP Editor</a>
+            </div>
+          </div>
+          <div class="sap-menu-item" onclick="toggleMenu('menu-system')">System
+            <div class="sap-dropdown" id="menu-system">
+              <a href="#" onclick="executeTransaction('LOGON')">Log Off</a>
+            </div>
+          </div>
+          <div class="sap-menu-item" onclick="toggleMenu('menu-help')">Help
+            <div class="sap-dropdown" id="menu-help">
+              <a href="#" onclick="showHelp()">Application Help</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAP Transaction Screen Container -->
+        <div class="sap-screen-content" id="sap-screen">
+          <!-- Screen content loaded dynamically by app.js -->
+        </div>
+
+        <!-- SAP GUI Footer / Status Bar -->
+        <div class="sap-footer">
+          <div class="status-msg-container">
+            <i class="fa-solid fa-circle-info" id="status-icon"></i>
+            <span id="sap-status-text">System initialized. Log in to start.</span>
+          </div>
+          <div class="sap-footer-info">
+            <span class="info-cell" id="sap-active-tx">TX: LOGON</span>
+            <span class="info-cell"><i class="fa-solid fa-database"></i> DB Connection OK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: The ABAP Code Explorer -->
+    <section class="panel code-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <i class="fa-solid fa-code-branch panel-icon"></i>
+          <h2>ABAP Code Explorer</h2>
+        </div>
+        <button class="action-btn copy-all-btn" onclick="copyActiveCode()"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+
+      <!-- File Navigation Tabs -->
+      <div class="code-navigator">
+        <!-- DDIC Category -->
+        <div class="nav-category">
+          <div class="nav-category-header"><i class="fa-solid fa-database"></i> Database Dictionary (DDIC)</div>
+          <div class="nav-links">
+            <button class="nav-file-link active" data-file="zquiz_header.sql" onclick="selectCodeFile('zquiz_header.sql')">ZQUIZ_HEADER.sql</button>
+            <button class="nav-file-link" data-file="zquiz_questions.sql" onclick="selectCodeFile('zquiz_questions.sql')">ZQUIZ_QUESTIONS.sql</button>
+            <button class="nav-file-link" data-file="zquiz_options.sql" onclick="selectCodeFile('zquiz_options.sql')">ZQUIZ_OPTIONS.sql</button>
+            <button class="nav-file-link" data-file="zquiz_attempts.sql" onclick="selectCodeFile('zquiz_attempts.sql')">ZQUIZ_ATTEMPTS.sql</button>
+            <button class="nav-file-link" data-file="zquiz_responses.sql" onclick="selectCodeFile('zquiz_responses.sql')">ZQUIZ_RESPONSES.sql</button>
+            <button class="nav-file-link" data-file="zquiz_users.sql" onclick="selectCodeFile('zquiz_users.sql')">ZQUIZ_USERS.sql</button>
+          </div>
+        </div>
+
+        <!-- Programming Objects Category -->
+        <div class="nav-category">
+          <div class="nav-category-header"><i class="fa-solid fa-code"></i> ABAP Programs & FMs</div>
+          <div class="nav-links">
+            <button class="nav-file-link" data-file="zquiz_admin_report.abap" onclick="selectCodeFile('zquiz_admin_report.abap')">ZQUIZ_ADMIN_REPORT.abap</button>
+            <button class="nav-file-link" data-file="zquiz_attempt_mp.abap" onclick="selectCodeFile('zquiz_attempt_mp.abap')">ZQUIZ_ATTEMPT_MP.abap</button>
+            <button class="nav-file-link" data-file="zquiz_evaluation_fm.abap" onclick="selectCodeFile('zquiz_evaluation_fm.abap')">ZQUIZ_EVALUATE.abap</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Inspector Viewer -->
+      <div class="code-viewer-container">
+        <div class="file-details">
+          <span class="file-path-display"><i class="fa-regular fa-file-code"></i> <span id="current-filename">zquiz_header.sql</span></span>
+          <span class="sap-se-mode">Transaction: <strong id="sap-se-tx">SE11 (Dictionary)</strong></span>
+        </div>
+        <div class="code-editor">
+          <div class="line-numbers" id="line-numbers">
+            <!-- Populated by JS -->
+          </div>
+          <pre><code id="code-content" class="abap-highlight">
+            <!-- Highlighted code content -->
+          </code></pre>
+        </div>
+        <div class="file-explanation">
+          <h3>Component Description</h3>
+          <p id="file-explanation-text">This table holds metadata about the quizzes. In a production environment, this definition represents a custom transparent database table created via the SAP ABAP Data Dictionary (transaction SE11).</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Help Modal -->
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-circle-question"></i> System Quick Start Guide</h3>
+        <button class="modal-close" onclick="closeHelp()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>Overview</h4>
+        <p>This web dashboard serves as an interactive prototype for the <strong>SAP ABAP Quiz Management System</strong>. The left panel emulates SAP GUI behavior, while the right panel displays the production-grade ABAP codebase.</p>
+        
+        <h4>Logon Credentials (Simulated)</h4>
+        <table class="help-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Role Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ADMIN</code></td>
+              <td><code>admin123</code></td>
+              <td>Create quizzes, check performance analytics via ALV grid reporting.</td>
+            </tr>
+            <tr>
+              <td><code>STUDENT1</code></td>
+              <td><code>student123</code></td>
+              <td>Candidate. Log in to attempt quizzes, view scores, download certificate.</td>
+            </tr>
+            <tr>
+              <td><code>STUDENT2</code></td>
+              <td><code>student123</code></td>
+              <td>Candidate. Standard user attempting SAP basic quizzes.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>SAP Transaction Codes (Cmd Input Box)</h4>
+        <ul>
+          <li><code>/nZQUIZ</code> - Navigates directly to the Quiz Attempt dashboard / exam player.</li>
+          <li><code>/nZQUIZ_REPORT</code> - Opens the Administrator ALV Scoreboard list view.</li>
+          <li><code>/nSE11</code> - Switch to Database Dictionary tables code view.</li>
+          <li><code>/nSE38</code> - View main ABAP report source files.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn" onclick="closeHelp()">Got it, let's go!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="abap_source.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

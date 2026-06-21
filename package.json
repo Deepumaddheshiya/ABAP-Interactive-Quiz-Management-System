@@ -1,0 +1,17 @@
+{
+  "name": "sap-abap-quiz-simulator",
+  "version": "1.0.0",
+  "description": "Interactive Quiz Management System using SAP ABAP - Simulator and Explorer",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y http-server . -p 3000 -o"
+  },
+  "keywords": [
+    "sap",
+    "abap",
+    "simulator",
+    "quiz"
+  ],
+  "author": "Deepu Maddheshiya",
+  "license": "MIT"
+}
