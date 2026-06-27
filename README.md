@@ -85,6 +85,10 @@ Features:
 * Pass/Fail Determination
 * Performance Calculation
 
+* Final Result
+* <img width="946" height="862" alt="image" src="https://github.com/user-attachments/assets/af56cede-ca53-4ed2-9dec-5dc554592631" />
+
+
 ## 📊 Analytics Dashboard
 
 Admin Dashboard provides:
